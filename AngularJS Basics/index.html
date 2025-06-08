@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Setup Example</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <style>
+        .redColor {
+            color: red;
+        }
+    </style>
+    <script>
+        angular.module('myApp', [])
+            .controller('myController', function ($scope) {
+                // for simple ng-model example
+                $scope.name = 'Samarth';
+
+                $scope.price = 1234.567;
+                $scope.today = new Date();
+
+                $scope.age = 22;
+                $scope.names = 'Max';
+                $scope.ages = 27;
+
+                // for adding two numbers and getting the answer instantly
+                $scope.num1 = 0;
+                $scope.num2 = 0;
+                $scope.add = function () {
+                    $scope.result = $scope.num1 + $scope.num2;
+                };
+
+                // simple ng-repeat 
+                $scope.namess = ['Samarth', 'Max', 'Oscar', 'Charlos'];
+
+                // for ng-repeat in table form
+                $scope.students = [
+                    { name: "Samarth", grade: "A" },
+                    { name: "Gagan", grade: "A+" },
+                    { name: "Akshar", grade: "A" }
+                ];
+
+                // for ng-repeat using index
+                $scope.fruits = ['Apple', 'Mango', 'Banana', 'Pineapple'];
+
+                // for ng-click
+                $scope.count = 0;
+                $scope.increment = function () {
+                    $scope.count++;
+                };
+
+                // ng-click for storing items
+                $scope.newItem = "";
+                $scope.items = [];
+                $scope.addItem = function () {
+                    if ($scope.newItem) {
+                        $scope.items.push($scope.newItem);
+                        $scope.newItem = "";
+                    }
+                }
+
+                // filters in angularjs
+                $scope.products = [
+                    { name: "Pen", price: 10 },
+                    { name: "Book", price: 30 },
+                    { name: "Laptop", price: 60000 }
+                ];
+
+                //  ng-disabled
+                $scope.val='';
+                // ng-change
+                $scope.convert=function(){
+                    $scope.val=$scope.val.toUpperCase();
+                }
+
+                // ng-submit
+                $scope.user={};
+                $scope.submitForm=function(){
+                    alert("Submitted:"+$scope.user.name+","+$scope.user.email)
+                }
+            });
+    </script>
+</head>
+
+<body>
+    <!-- simple ng-model example -->
+    <h1>Welcome to AngularJS</h1>
+    <label for="nameName">Name<span class="redColor">*</span><span>:</span></label>
+    <input type="text" id="nameName" ng-model="name" required>
+
+    <hr>
+    <h1>Hello,</h1>
+    <h1 ng-bind="name">Your name is:</h1>
+
+    <p>Hello,{{name}}</p>
+
+    <input type="number" ng-model="num1">
+    <input type="number" ng-model="num2">
+
+    <p>Sum={{num1+num2}}</p>
+
+    <input type="checkbox" ng-model="isSubscribed">Subscribed?
+    <p>Subscribed:{{isSubscribed}}</p>
+
+    <label><input type="radio" ng-model="gender" value="Male" name="Male">Male</label>
+    <label><input type="radio" ng-model="gender" value="Female" name="Female">Female</label>
+    <label><input type="radio" ng-model="gender" value="Other" name="other">Other</label>
+
+    <p>Selected gender is:{{gender}}</p>
+
+    <select ng-model="city">
+        <option value="Bangalore">Bangalore</option>
+        <option value="Mysore">Mysore</option>
+        <option value="Shivamogga">Shivamogga</option>
+    </select>
+    <p>Selected city is:{{city}}</p>
+
+    <label for="bioBio"></label>
+    <textarea ng-model="bio" rows="5" cols="50" id="bioBio" placeholder="Write your bio here"></textarea>
+
+    <!-- simple ng-controller-->
+    <p>Your bio is:{{bio}}</p>
+    <div ng-controller="myController">
+        <p>Name:{{name}}</p>
+        <p>Age:{{age}}</p>
+        <p>Names:{{names}}</p>
+        <p>Ages:{{ages}}</p>
+        <!-- for adding two numbers and getting the answer instantly -->
+        <input type="number" ng-model="num1">+
+        <input type="number" ng-model="num2">
+        <button ng-click="add()">Add</button>
+        <p>Result:{{result}}</p>
+    </div>
+
+    <!-- simple ng-repeat -->
+    <div ng-controller="myController">
+        <h2>Namess:</h2>
+        <ul>
+            <li ng-repeat="names in namess">{{names}}</li>
+        </ul>
+    </div>
+
+    <!-- for ng-repeat in table form -->
+    <div ng-controller="myController">
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+            </tr>
+            <tr ng-repeat="student in students">
+                <td>{{student.name}}</td>
+                <td>{{student.grade}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- for ng-repeat using index -->
+    <div ng-controller="myController">
+        <ul>
+            <li ng-repeat="fruit in fruits track by $index">
+                {{index+1}}.{{fruit}}
+            </li>
+        </ul>
+
+    </div>
+
+    <!-- for ng-click -->
+    <div ng-controller="myController">
+        <h2>Button count:{{count}}</h2>
+        <button ng-click="increment()">Click me</button>
+    </div>
+
+    <!-- ng-click for storing items -->
+    <div ng-controller="myController">
+        <input type="text" ng-model="newItem" placeholder="Enter item">
+        <button ng-click="addItem()">Add</button>
+
+        <ul>
+            <li ng-repeat="item in items">{{items}}</li>
+        </ul>
+
+        <!-- filters in angularjs -->
+        <div ng-controller="myController">
+            <p><strong>Uppercase:</strong>{{name | uppercase}}</p>
+            <p><strong>Currency:</strong>{{price | currency}}</p>
+            <p><strong>Date:</strong>{{today | date:'fullDate'}}</p>
+
+            <hr>
+
+            <input type="text" ng-model="searchName" placeholder="Search product">
+
+            <ul>
+                <li ng-repeat="p in products |filter:searchName">
+                    {{p.name}}-₹{{p.price}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- for ng-show condition -->
+    <div>
+        <input type="checkbox" ng-model="newItem">Show Message
+        <p ng-show="newItem">Welcome, Samarth!</p>
+    </div>
+
+    <!-- for ng-hide condition -->
+    <div>
+        <input type="checkbox" ng-model="newItem">Hide Message
+        <p ng-hide="newItem">This is hidden if content is true</p>
+    </div>
+
+    <!-- for ng-if condition -->
+    <div>
+        <input type="checkbox" ng-model="searchName">Click me
+        <div ng-if="searchName">This is shown only when clicked</div>
+    </div>
+
+    <!-- we can initialize the values for variables using ng-init -->
+    <div ng-init="name='Samarth';age=22;">
+        <p> Name:{{name}}</p>
+        <p>Age:{{age}}</p>
+    </div>
+
+    <!-- for ng-bind -->
+    <div ng-controller="myController">
+        <p>Hello,<span ng-bind="name"></span>!</p>
+    </div>
+
+    <!-- for ng-disabled disables the botton if value is empty -->
+     <div ng-controller="myController">
+        <input type="text" ng-model="val" placeholder="Enter your name">
+        <button ng-disabled="val==''">Submit</button>
+     </div>
+
+     <!-- for ng-change -->
+      <div ng-controller="myController">
+          <input type="text" ng-model="val" ng-change="convert()" placeholder="Enter your name"> 
+      </div>
+      <hr>
+
+      <!-- for ng-submit -->
+       <div ng-controller="myController">
+        <form ng-submit="submitForm()">
+             <input type="text" ng-model="user.name" placeholder="Enter your name" required><br>
+             <input type="text" ng-model="user.email" placeholder="Enter your email" required><br>
+             <button type="submit">Submit</button>
+        </form>
+       </div>
+</body>
+
+</html>
